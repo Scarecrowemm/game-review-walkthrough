@@ -1,0 +1,387 @@
+{
+  "_comment": "结构示例。示例中的游戏《灰烬回廊》为虚构作品，所有数值与来源均为占位内容，请勿当作真实资料引用。新建数据文件时复制本文件再改。",
+
+  "schema_version": "1.0",
+
+  "game": {
+    "title": "灰烬回廊",
+    "title_en": "Ashen Corridor",
+    "platforms": ["PC", "PS5"],
+    "version": "1.03",
+    "version_confirmed": true,
+    "review_date": "2026-09-16",
+    "language": "简体中文",
+    "evidence_base": "cleared_under_15h",
+    "playtime_hours": 14.5,
+    "completion": "主线通关，支线 55%，未打高难模式",
+    "materials": [
+      { "path": "C:/caps/ch3_bell.png", "content": "第 3 章钟摆机关，含左侧墙上的钩索点位", "progress": "第 3 章" },
+      { "path": "C:/caps/boss2_phase2.mp4", "content": "第二 BOSS 二阶段完整循环录像", "progress": "第 4 章" }
+    ],
+    "disclosure": "无利益相关，自购；无送测、无赞助",
+
+    "images": [
+      {
+        "kind": "official",
+        "path": "screenshots/official_keyart.jpg",
+        "caption": "官方主视觉：注意画面右侧钟楼的断裂结构，第 3 章钟摆关即发生在此处",
+        "source_url": "https://example.com/press-kit",
+        "credit": "版权归发行方所有，此处仅作评测引用"
+      }
+    ]
+  },
+
+  "review": {
+    "summary": "核心循环扎实，前 6 小时几乎没有废操作，钩索与钟摆组合出的移动路线是近几年同品类里少有的新鲜感。短板集中在后期：第 5 章起怪物配置开始靠堆血量拉长战斗，系统层面的资源产出明显快于消耗，导致后期难度反而回落。技术表现是全作最弱项，PC 版在密集粒子场景下 1% low 掉到 40 帧区间。综合看，这是一款值得推荐但后期节奏需要耐心的作品。",
+
+    "dimensions": [
+      {
+        "id": "core_loop",
+        "name": "核心循环与玩法深度",
+        "score": 8,
+        "weight": 0.20,
+        "coverage_note": "仅覆盖主线，未评估高难模式下的循环变化",
+        "plus": [
+          "移动-战斗-采集三者共享同一套体力资源，玩家必须在同一资源池里做取舍，而不是各玩各的",
+          "钩索与钟摆的组合在后期被关卡重新定义用途，同一机制在 6 小时的跨度里出现了三次语义升级"
+        ],
+        "minus": [
+          "第 5 章后新增的敌人不引入新决策，只提升血量与攻击频率，循环在该段停滞"
+        ],
+        "evidence": [
+          { "tier": "verified_play", "note": "主线全程亲手通关，第 5 章停滞感在第 4 次重复战斗后可复现" },
+          { "tier": "user_material", "material_ref": "C:/caps/ch3_bell.png", "note": "钩索点位的关卡布置可见" }
+        ]
+      },
+      {
+        "id": "level_design",
+        "name": "关卡与内容设计",
+        "score": 7,
+        "weight": 0.18,
+        "plus": [
+          "第 3 章钟摆关用一次失败教会玩家节奏，教学成本为零，全章没有一句文字提示",
+          "存在明显捷径：第 4 章中段可从外墙直接绕到 BOSS 房，跳过了约 8 分钟的正规路线"
+        ],
+        "minus": [
+          "第 5-6 章结构重复，均为「三段战斗 + 一扇门」，节奏曲线在第 5 章后趋平"
+        ],
+        "evidence": [
+          { "tier": "verified_play", "note": "两次通关，第 4 章外墙捷径可稳定复现" }
+        ]
+      },
+      {
+        "id": "feel_feedback",
+        "name": "操作手感与反馈通道",
+        "score": 8,
+        "weight": 0.15,
+        "coverage_note": "仅手柄，键鼠适配未评估",
+        "plus": [
+          "轻重击的命中停顿差异明显，仅凭音效即可区分是否破防，无需看 UI",
+          "受击方向通过音效声道与镜头轻推双重传达，背后来敌可在不看小地图时感知"
+        ],
+        "minus": [
+          "钩索在无锚点时仍播放半程起手动画，产生约 0.2 秒的操作空转，破坏节奏"
+        ],
+        "evidence": [
+          { "tier": "verified_play", "note": "钩索空转在任意无锚点墙面可复现" },
+          { "tier": "user_material", "material_ref": "C:/caps/boss2_phase2.mp4 @ 01:12", "note": "破防命中停顿的帧差可在此段核对" }
+        ]
+      },
+      {
+        "id": "systems_balance",
+        "name": "系统与数值健康度",
+        "score": 6,
+        "weight": 0.14,
+        "plus": [
+          "三套武器分支各有适配场景，不存在跨全流程的最优解",
+          "无内购、无微交易，付费点不影响任何强度数值"
+        ],
+        "minus": [
+          "灵魂结晶产出远大于消耗：通关时结余 4 万余，全部升级格已满，该资源在第 5 章后失去意义",
+          "恢复药在中期即可实现无限循环，直接压平了后半程的难度曲线"
+        ],
+        "evidence": [
+          { "tier": "verified_play", "note": "通关存档资源结余与升级格状态可核对" },
+          { "tier": "inferred", "basis": "资源增益词条可叠加且无衰减，按同名词条线性叠加推算，第 5 章后药水战斗消耗低于产出", "how_to_verify": { "where": "第 5 章任意篝火", "what": "装备两件以上回复词条后连续战斗 15 分钟", "watch": "观察药水数量是否只增不减" } }
+        ]
+      },
+      {
+        "id": "presentation",
+        "name": "视听表现与美术方向",
+        "score": 7,
+        "weight": 0.12,
+        "plus": [
+          "用颜色编码可交互物与危险物，玩家无需试错即可判断墙面的钩索点",
+          "低饱和美术方向与灰烬主题自洽，第 3 章的钟声与场景频率构成呼应"
+        ],
+        "minus": [
+          "第 5 章地图复用了第 2 章的建筑模块，视觉辨识度下降，容易迷路"
+        ],
+        "evidence": [
+          { "tier": "verified_play", "note": "颜色编码规则在前 3 章内保持一致" }
+        ]
+      },
+      {
+        "id": "tech_stability",
+        "name": "技术稳定性与性能",
+        "score": 5,
+        "weight": 0.11,
+        "coverage_note": "仅测试 PC 版（RTX 3060 / 2K 中画质），PS5 版未测",
+        "plus": [
+          "加载速度快，重开 BOSS 战约 4 秒，试错成本低",
+          "无崩溃与存档损坏，14.5 小时全程未遇到阻塞性 bug"
+        ],
+        "minus": [
+          "密集粒子场景下 1% low 掉到 40 帧区间，可稳定复现，非偶发",
+          "画面选项缺乏对粒子质量的独立开关，只能整体降档"
+        ],
+        "evidence": [
+          { "tier": "verified_play", "note": "第 4 章 BOSS 二阶段的粒子场景可稳定复现掉帧" }
+        ]
+      },
+      {
+        "id": "value_content",
+        "name": "内容量与性价比",
+        "score": 7,
+        "weight": 0.10,
+        "plus": [
+          "主线 + 支线约 14.5 小时无强制 grind，重复内容可全部跳过",
+          "DLC 尚未拆出本体内容，后续更新为增量添加"
+        ],
+        "minus": [
+          "二周目仅提升难度与掉落，无新增内容或路线变化"
+        ],
+        "evidence": [
+          { "tier": "verified_play", "note": "主线加支线总时长由存档计时读取" }
+        ]
+      }
+    ],
+
+    "bias_audit": [
+      { "risk": "利益相关", "finding": "自购游戏，无送测、无赞助、无发行方关系", "action": "无需扣分，已在首屏声明" },
+      { "risk": "平台偏好", "finding": "仅使用手柄，未测试键鼠", "action": "键鼠适配不纳入 feel_feedback 与 tech_stability 评价，已在 coverage_note 标注" },
+      { "risk": "系列情怀", "finding": "本作为新 IP，无前作加成", "action": "系列对比不适用" },
+      { "risk": "素材污染", "finding": "看过首发宣传片，但评分锚点仅采用游戏内可观察现象", "action": "宣传片信息未用于任何加分锚点" },
+      { "risk": "时长偏差", "finding": "时长 14.5 小时，未打高难模式与完整支线", "action": "总分上限按 cleared_under_15h 封顶 8.5，并将后期内容标注为覆盖范围外" },
+      { "risk": "规模偏差", "finding": "本作为中型团队作品，未因预算规模调整任何权重", "action": "七维权重与 rubric 完全一致" },
+      { "risk": "首发情绪", "finding": "评测时未参考任何平台综合评分", "action": "未引用外部评分作为锚点" }
+    ],
+
+    "series_note": "本作为新 IP，无系列历史可对比。若后续作品沿用同一套体力资源设计，需重新评估该机制在系列内的复用性——单作成立不代表系列成立。",
+
+    "pros": [
+      "移动、战斗、采集共享单一资源池，三者互相牵制，决策密度高",
+      "钩索机制在 6 小时跨度内被关卡重新定义三次用途，同一机制持续产出新鲜感",
+      "重开 BOSS 战约 4 秒，试错成本极低，鼓励玩家主动尝试不同打法",
+      "颜色编码清晰，无需文字教程即可理解关卡规则"
+    ],
+    "cons": [
+      "第 5 章后敌人靠堆血量延长战斗，循环停滞",
+      "灵魂结晶后期严重过剩，资源系统在后半程失去意义",
+      "PC 版密集粒子场景 1% low 掉至 40 帧区间，可稳定复现",
+      "二周目无内容变化，重复游玩价值有限"
+    ],
+
+    "sources": [
+      { "title": "官方 1.03 补丁说明", "url": "https://example.com/patch-1.03", "retrieved": "2026-09-16", "kind": "official" },
+      { "title": "官方 Wiki - 灵魂结晶", "url": "https://example.com/wiki/soul-crystal", "retrieved": "2026-09-16", "kind": "official" },
+      { "title": "示例攻略站 - 钟摆关解法", "url": "https://example.org/guide/bell", "retrieved": "2026-09-16", "kind": "community" }
+    ]
+  },
+
+  "walkthrough": {
+    "scope": "覆盖第 1-6 章主线与全部 2 场 BOSS 战；不含高难模式与完整支线。" ,
+
+    "layers": {
+      "A_main_route": [
+        {
+          "id": "ch1",
+          "chapter": "第 1 章 · 灰烬入口",
+          "goal": "熟悉体力资源与基础闪避，抵达第一处篝火",
+          "route": [
+            "沿唯一通路向下，途中无岔路，本章不存在可错过的收集品",
+            "首次遇敌时系统会强制触发一次闪避教学，此处无法跳过",
+            "篝火处完成首次升级，本章结束"
+          ],
+          "time_estimate": "20-30 分钟",
+          "unlock": ["基础闪避", "篝火传送"],
+          "missable": [],
+          "evidence": [
+            { "tier": "verified_play", "note": "开篇至篝火为线性结构，无分支" }
+          ]
+        },
+        {
+          "id": "ch3",
+          "chapter": "第 3 章 · 沉没钟楼",
+          "goal": "取得钩索，通过钟摆机关抵达顶层",
+          "route": [
+            "取得钩索后返回中央塔，钟楼外墙的所有钩索点会在小地图上以高亮色标出",
+            "顶层触发钟摆机关，本章战斗密度最低，重点在位移而非输出",
+            "本章限时商人首次出现，其商品在离章后不再提供"
+          ],
+          "time_estimate": "40-60 分钟",
+          "unlock": ["钩索"],
+          "missable": [
+            { "what": "限时商人的钩索强化材料（可减少一次起手空转）", "window": "仅第 3 章", "recoverable": false }
+          ],
+          "images": [
+            {
+              "kind": "user_capture",
+              "path": "C:/caps/ch3_bell.png",
+              "caption": "第 3 章中央塔二层：右侧墙面不带高亮的就是不灭提灯的钩索点，普通点位都有黄光标记",
+              "anchors": ["右上方暗角的墙面（无高亮）", "左下角已点亮的普通钩索点作对比"],
+              "how_to_get": "用 extract_frames.py 从第 3 章录像抽帧，或游戏内按截图键"
+            }
+          ],
+          "evidence": [
+            { "tier": "verified_play", "note": "离章后返回该节点确认商人不再出现" },
+            { "tier": "user_material", "material_ref": "C:/caps/ch3_bell.png", "note": "钩索点位的墙面高亮可见" }
+          ]
+        }
+      ],
+
+      "B_blockers": [
+        {
+          "id": "b_bell",
+          "title": "钟楼钟摆总是被撞下去",
+          "chapter": "第 3 章 · 沉没钟楼",
+          "symptom": "反复在钟摆的第三摆被撞落，多数玩家会误判为跳跃距离不足，实际是被前一摆的余波推到判定区",
+          "mechanic": "这一关考的不是跳跃精度，是「起跳时机必须绑定钟声」而不是绑定视觉位置。钟摆在画面上有视觉滞后，用眼睛跟会晚约半拍",
+          "solution": {
+            "思路": "闭眼跟声——把注意力从钟摆本体移到音效上，钟声响起即为起跳信号，不要等看到钟摆到位",
+            "steps": [
+              "站在平台最内侧，等第一摆过去后再上钩索，避免开局就被余波推走",
+              "听到钟声立刻起跳，不用确认钟摆位置",
+              "落点选在平台靠外三分之二处，给下一摆留出后撤空间"
+            ],
+            "common_errors": [
+              "用视觉跟钟摆 → 稳定晚半拍，在第三摆被撞",
+              "贪输出在平台上多打一下 → 后撤空间不足，被余波推落"
+            ]
+          },
+          "tolerance": "钟声到起跳的容错窗口约 0.5 秒；平台外侧有约 0.3 秒的后撤冗余，但窗口在第三摆会缩短",
+          "images": [
+            {
+              "kind": "user_capture",
+              "path": "screenshots/ch3_bell_safe_landing.png",
+              "caption": "安全落点示意：站在平台靠外三分之二处，给下一摆留出后撤空间。站在内侧会被余波推落",
+              "anchors": ["平台外侧三分之二的分界位置", "钟摆扫过的判定范围"],
+              "how_to_get": "第 3 章失败一次后重开，在起跳前截图"
+            }
+          ],
+          "evidence": [
+            { "tier": "verified_play", "note": "失败 5 次后改用听声法，连续 3 次通过" },
+            { "tier": "user_material", "material_ref": "C:/caps/ch3_bell.png", "note": "平台外侧三分之二处即为安全落点区域" }
+          ]
+        }
+      ],
+
+      "C_bosses": [
+        {
+          "id": "boss2",
+          "name": "第二 BOSS · 灰烬执刑者",
+          "chapter": "第 4 章",
+          "recommended": {
+            "level": "建议等级 22 以上",
+            "gear": "火抗不低于 30%，二阶段火焰地面持续伤害与抗性直接相关",
+            "consumables": "恢复药 6-8 个，二阶段无中断补给机会"
+          },
+          "phases": [
+            {
+              "phase": 1,
+              "hp_range": "100%-65%",
+              "pattern": "横扫 → 横扫 → 突进，三步固定循环，无随机分支",
+              "tell": "横扫前右肩会先下沉约 0.3 秒；突进前有半秒停顿且脚下扬灰",
+              "punish": "两次横扫之间有 2 秒安全窗口，可打满一套轻击；突进撞墙后有 3 秒硬直",
+              "risk": "突进若未撞墙则直接衔接横扫，此时没有输出窗口，后撤即可"
+            },
+            {
+              "phase": 2,
+              "hp_range": "65%-0%",
+              "pattern": "在场中留火焰地面，招式循环在原有基础上插入一次跳跃砸地",
+              "tell": "跳跃前会短暂离开画面下方，同时地面火焰颜色转深",
+              "punish": "砸地落点固定在场中央，落地后 1.5 秒硬直，这是主要输出窗口",
+              "risk": "砸地落点判定范围比视觉表现大一圈，站在边缘仍会被命中"
+            }
+          ],
+          "cheese": "二阶段可站在场边柱子后方输出，火焰地面无法覆盖该区域，代价是输出效率下降约四成",
+          "images": [
+            {
+              "kind": "user_capture",
+              "path": "screenshots/boss2_phase2_slam.png",
+              "timestamp": "02:14",
+              "caption": "二阶段砸地前摇：BOSS 短暂离开画面下方，同时地面火焰颜色转深，此时立刻拉开距离",
+              "anchors": ["画面下方的 BOSS 消失帧", "转深的地面火焰"],
+              "how_to_get": "对 C:/caps/boss2_phase2.mp4 运行 extract_frames.py --at 02:14 即可得到此帧"
+            },
+            {
+              "kind": "diagram",
+              "is_illustration": true,
+              "diagram_type": "phase_timeline",
+              "caption": "阶段与血量区间（由阶段表自动生成，非游戏画面）"
+            }
+          ],
+          "evidence": [
+            { "tier": "verified_play", "note": "两个阶段各失败 3 次以上，招式循环与窗口可稳定复现" },
+            { "tier": "user_material", "material_ref": "C:/caps/boss2_phase2.mp4", "note": "二阶段完整循环录像，出招前摇与硬直时长可逐帧核对" }
+          ]
+        }
+      ],
+
+      "D_collectibles": [
+        {
+          "id": "c_lantern",
+          "name": "不灭提灯",
+          "chapter": "第 3 章 · 沉没钟楼",
+          "location": "中央塔二层，从外墙钩索点向右上方两段，位于一处无灯光提示的暗角",
+          "trigger": "该处墙面不显示钩索高亮，需主动尝试；取得后永久增加一格体力上限",
+          "missable": true,
+          "recoverable": "不可补——第 3 章结束后钟楼外墙钩索点消失，无法再次抵达该位置",
+          "value": "体力上限 +1（全流程唯一永久增益）",
+          "images": [
+            {
+              "kind": "user_capture",
+              "path": "screenshots/ch3_lantern_spot.png",
+              "caption": "提灯所在暗角：这个位置在整个场景里没有灯光提示，只能靠主动尝试钩索才能发现",
+              "anchors": ["暗角墙面的钩索判定区", "与周围常规点位的亮度对比"]
+            }
+          ],
+          "evidence": [
+            { "tier": "verified_play", "note": "首次通关因未取得而错过，二周目确认离章后点位消失" },
+            { "tier": "inferred", "basis": "该墙面无高亮但钩索判定生效，推测同类未标记点位在其他章节也存在", "how_to_verify": { "where": "第 5 章外围墙体", "what": "对无高亮的墙面逐一尝试钩索", "watch": "若出现钩索吸附动画则说明存在未标记点位" } }
+          ]
+        }
+      ]
+    },
+
+    "unverified": [
+      {
+        "question": "第 5 章西侧密道是否通向隐藏结局",
+        "priority": "high",
+        "how_to_verify": {
+          "where": "第 5 章，取得钩索后回到中央塔西侧外墙",
+          "what": "对西侧墙体使用钩索，连续向上两段",
+          "watch": "若出现一段无音效提示的攀爬动画，则判定密道存在"
+        }
+      },
+      {
+        "question": "高难模式下第二 BOSS 是否新增第三阶段",
+        "priority": "medium",
+        "how_to_verify": {
+          "where": "第 4 章 BOSS 战，高难模式",
+          "what": "将 BOSS 血量压至 20% 以下并保持 30 秒不断攻击",
+          "watch": "观察是否出现未在常规难度中见过的招式或转场动画"
+        }
+      },
+      {
+        "question": "灵魂结晶是否存在第四种消耗途径",
+        "priority": "low",
+        "how_to_verify": {
+          "where": "任意篝火",
+          "what": "在全部升级格点满后再次与篝火交互",
+          "watch": "观察是否出现新的交互选项或不可用的灰色条目"
+        }
+      }
+    ]
+  }
+}

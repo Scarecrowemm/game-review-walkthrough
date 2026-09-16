@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{GAME_TITLE}} · 通关攻略</title>
+<style>
+{{CSS}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <span class="kicker">Walkthrough</span>
+    <h1>{{GAME_TITLE}} · 通关攻略</h1>
+    <div class="meta">{{GAME_META}}</div>
+  </header>
+
+  {{BANNER}}
+
+  {{COVER}}
+
+  <nav class="nav">{{NAV}}</nav>
+
+  {{LAYER_A}}
+  {{LAYER_B}}
+  {{LAYER_C}}
+  {{LAYER_D}}
+
+  <section class="layer" id="unverified">
+    <div class="layer-title">
+      <h2>待验证清单</h2>
+      <p>以下内容缺少证据支撑，未写入正文。每条给出可自行验证的方法。<span class="count"></span></p>
+    </div>
+    {{UNVERIFIED}}
+  </section>
+
+  <h2>来源清单</h2>
+  <ul class="sources">{{SOURCES}}</ul>
+
+  <footer>
+    攻略内容标注版本号，招式、数值、掉率随补丁变化，跨版本请重新核对。
+    带「推断」「未验证」徽标的条目未经证实，请以游戏内实际表现为准。
+    图片分三类：玩家截图（真实画面）、官方素材（附来源与版权）、机制示意图（代码绘制，非游戏画面）。
+    报告中不存在 AI 生成的伪造游戏截图。
+    <br>生成时间 {{GENERATED_AT}}
+  </footer>
+
+</div>
+</body>
+</html>

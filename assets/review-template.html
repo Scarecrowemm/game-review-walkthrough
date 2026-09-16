@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{GAME_TITLE}} · 评测</title>
+<style>
+{{CSS}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <span class="kicker">Game Review</span>
+    <h1>{{GAME_TITLE}}<span class="title-en">{{TITLE_EN}}</span></h1>
+    <div class="meta">{{GAME_META}}</div>
+  </header>
+
+  {{BANNER}}
+
+  {{COVER}}
+
+  {{SCORE_BLOCK}}
+
+  {{RADAR}}
+
+  <section class="block">
+    <h2>总评</h2>
+    <p>{{SUMMARY}}</p>
+  </section>
+
+  <h2>维度评分</h2>
+  {{DIMENSION_CARDS}}
+
+  <div class="pc">
+    <section class="block">
+      <h2>优点</h2>
+      <ul>{{PROS}}</ul>
+    </section>
+    <section class="block cons">
+      <h2>缺点</h2>
+      <ul>{{CONS}}</ul>
+    </section>
+  </div>
+
+  {{SERIES_NOTE}}
+
+  <h2>公正性自查</h2>
+  <table>
+    <thead><tr><th>风险项</th><th>核查结果</th><th>处置</th></tr></thead>
+    <tbody>{{BIAS_AUDIT}}</tbody>
+  </table>
+
+  <h2>来源清单</h2>
+  <ul class="sources">{{SOURCES}}</ul>
+
+  <footer>
+    证据分级 E1-E5：E1 亲验 / E2 素材 / E3 有源 / E4 推断 / E5 未知。
+    加权总分由脚本按固定权重计算，同一份证据可复现同一结果。未经玩到的内容已标注覆盖范围。
+    <br>生成时间 {{GENERATED_AT}}
+  </footer>
+
+</div>
+</body>
+</html>

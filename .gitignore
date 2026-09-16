@@ -1,0 +1,36 @@
+# ---- 运行产物 ----
+out/
+screenshots/
+*.html.gz
+
+# ---- 用户数据（可能含个人信息，绝不入库）----
+report-data.json
+*.sav
+*.log
+
+# ---- 迁移脚本产生的备份与副本 ----
+skills.backup/
+*.backup/
+*.bak-*/
+*.bak
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# ---- 编辑器 / 系统 ----
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- 本地覆盖 ----
+*.local.json
+.env
+.env.*
