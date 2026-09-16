@@ -318,4 +318,12 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    # stdout 被重定向到管道时，Windows 用的是 ANSI 代码页（英文系统为 cp1252），
+    # print 中文会直接 UnicodeEncodeError 崩掉——CI 的 windows runner 必然踩中。
+    # 本机是中文 Windows 或 Git Bash（UTF-8），永远看不到这个问题。
+    for _stream in (sys.stdout, sys.stderr):
+        try:
+            _stream.reconfigure(encoding="utf-8")
+        except (AttributeError, ValueError):
+            pass
     sys.exit(main())

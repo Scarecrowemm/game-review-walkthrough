@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -653,6 +654,67 @@ def run_cli(tmp_path, data, *extra):
         text=True,
         encoding="utf-8",
     )
+
+
+def run_cli_env(tmp_path, data, env_overrides, *extra):
+    """同 run_cli，但可覆盖子进程环境变量。"""
+    path = tmp_path / "report-data.json"
+    path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+    return subprocess.run(
+        [sys.executable, str(SCRIPT), str(path), *extra],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        env={**os.environ, **env_overrides},
+    )
+
+
+class TestEncodingPortability:
+    """stdout 编码不是 UTF-8 时的行为。
+
+    这不是假想问题。CI 的 windows runner 是英文系统，stdout 重定向到管道时
+    用的是 ANSI 代码页 cp1252，编码不了中文。而这个技能的全部输出都是中文
+    （报告标题、警告、错误提示），所以脚本入口必须强制 stdout 为 UTF-8，
+    否则一句 print 就直接 UnicodeEncodeError 崩掉、退出码非零。
+
+    本地根本复现不出来——中文 Windows 是 cp936、Git Bash 是 UTF-8，
+    两种都能编码中文，所以开发时怎么跑都是绿的。必须显式构造环境才能测到。
+    """
+
+    NON_UTF8 = {"PYTHONIOENCODING": "cp1252"}
+
+    def test_check_prints_chinese_under_cp1252(self, tmp_path):
+        r = run_cli_env(tmp_path, valid_data(), self.NON_UTF8, "--check")
+        assert r.returncode == 0, (
+            f"cp1252 环境下 CLI 崩溃（这正是 CI windows runner 变红的原因）：\n"
+            f"{r.stdout}\n{r.stderr}"
+        )
+        assert "校验通过" in r.stdout
+
+    def test_error_message_prints_chinese_under_cp1252(self, tmp_path):
+        """stderr 也全是中文，同样必须能输出。"""
+        data = valid_data()
+        data["game"]["evidence_base"] = "trust_me"
+        r = run_cli_env(tmp_path, data, self.NON_UTF8, "--check")
+        assert r.returncode == 1
+        assert "不要手写 HTML" in r.stderr
+
+    def test_render_writes_html_under_cp1252(self, tmp_path):
+        """渲染路径的 print 更多（警告列表等），单独覆盖。"""
+        out = tmp_path / "out"
+        r = run_cli_env(tmp_path, valid_data(), self.NON_UTF8, "--out", str(out))
+        assert r.returncode == 0, f"{r.stdout}\n{r.stderr}"
+        assert (out / "测试游戏-评测.html").is_file()
+        assert (out / "测试游戏-攻略.html").is_file()
+
+    def test_script_forces_utf8_at_entry(self):
+        """入口必须显式 reconfigure——否则上面三条只能靠环境侥幸通过。"""
+        src = SCRIPT.read_text(encoding="utf-8")
+        assert "reconfigure(encoding=\"utf-8\")" in src, (
+            "build_report.py 入口缺少 stdout 强制 UTF-8，"
+            "CI 的 windows runner 会因 print 中文而崩溃"
+        )
 
 
 class TestCLI:

@@ -95,20 +95,34 @@ MUTATIONS = [
         'for k in ("tell", "punish", "risk")',
         "for k in ()",
     ),
+    (
+        "入口不再强制 stdout 为 UTF-8（CI windows runner 会崩）",
+        '            _stream.reconfigure(encoding="utf-8")',
+        '            _stream.reconfigure(encoding="cp1252")',
+    ),
 ]
 
 
-def classify(out: str) -> str:
-    """区分「断言失败」和「语法/收集错误」。
+def classify(returncode: int, out: str) -> str:
+    """判定变异是否被测试有效捕获。
 
-    变异如果改坏了语法，pytest 会以收集错误退出——退出码同样非零，但**不代表
-    测试抓到了逻辑缺陷**。把这种算作捕获是自欺欺人，必须单独识别。
+    主判据是 pytest 的**退出码**，不是输出文本。这是踩坑换来的教训：
+    某次执行时 stdout 残留了进度行、结尾的摘要行丢失，
+    `\\d+ failed` 正则匹配不到，于是把「已被捕获」误报成「存活」。
+    假阴性比假阳性危险得多——它会让人以为逻辑没被覆盖，
+    跑去补一堆本来就不缺的用例，却始终查不出真正的原因。
+
+    pytest 退出码：0 全过 / 1 有测试失败 / 2 中断 / 3 内部错误 /
+    4 用法错误 / 5 没收集到用例。基线必须是 0，所以非零即说明变异起了作用；
+    但只有 1 才算「测试真的断言失败」，其余都是「没跑起来」，不算有效捕获。
     """
-    if re.search(r"\d+ (?:failed|failures)", out):
-        return "failed"
-    if re.search(r"\d+ error", out) or "errors during collection" in out:
+    if returncode == 0:
+        return "passed"
+    if returncode != 1:
         return "error"
-    return "passed"
+    if "errors during collection" in out or "INTERNALERROR" in out:
+        return "error"
+    return "failed"
 
 
 def run_pytest(root: Path) -> tuple[str, str]:
@@ -125,7 +139,22 @@ def run_pytest(root: Path) -> tuple[str, str]:
     )
     out = (r.stdout or "") + (r.stderr or "")
     lines = (r.stdout or "").strip().splitlines()
-    return classify(out), (lines[-1] if lines else out[-200:])
+    # 摘要行才是判定依据，优先挑它；挑不到就退回最后一行，并带上退出码。
+    summary = next(
+        (ln.strip() for ln in reversed(lines)
+         if re.search(r"\d+ (?:passed|failed|error)", ln)),
+        None,
+    )
+    if summary is None:
+        # 取不到摘要 = pytest 没跑到最后。真因通常只在 stderr 里
+        # （例如执行环境的安全钩子拦截了 pytest 的临时目录清理），
+        # 不带上就只能看到一句「基线未通过」，无从下手。
+        hint = (r.stderr or "").strip().splitlines()
+        summary = (
+            f"未取到摘要，rc={r.returncode}；"
+            f"stderr 首行：{hint[0][:160] if hint else '(空)'}"
+        )
+    return classify(r.returncode, out), f"[rc{r.returncode}] {summary}"
 
 
 def main() -> int:
@@ -185,4 +214,12 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    # stdout 被重定向到管道时，Windows 用的是 ANSI 代码页（英文系统为 cp1252），
+    # print 中文会直接 UnicodeEncodeError 崩掉——CI 上必然踩中。
+    # 本机是中文 Windows 或 Git Bash（UTF-8），永远看不到这个问题。
+    for _stream in (sys.stdout, sys.stderr):
+        try:
+            _stream.reconfigure(encoding="utf-8")
+        except (AttributeError, ValueError):
+            pass
     raise SystemExit(main())
