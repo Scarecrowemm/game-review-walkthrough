@@ -28,9 +28,11 @@ jobs:
         python-version: ["3.10", "3.13"]
 
     steps:
-      - uses: actions/checkout@v4
+      # v7 系列：action.yml 里是 using: node24。v4/v5 是 node20，
+      # GitHub 已将其强制迁移并持续告警（每次运行产生 5 条 deprecation 注解）。
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -50,9 +52,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
 
