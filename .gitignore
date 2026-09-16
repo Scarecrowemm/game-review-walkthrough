@@ -21,6 +21,9 @@ __pycache__/
 .venv/
 venv/
 env/
+.pytest_cache/
+.coverage
+htmlcov/
 
 # ---- 编辑器 / 系统 ----
 .vscode/
