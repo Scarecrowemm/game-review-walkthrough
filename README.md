@@ -1,5 +1,7 @@
 # game-review-walkthrough · 游戏评测与通关攻略
 
+[![tests](https://github.com/Scarecrowemm/game-review-walkthrough/actions/workflows/ci.yml/badge.svg)](https://github.com/Scarecrowemm/game-review-walkthrough/actions/workflows/ci.yml)
+
 一个 **Agent Skill**（SKILL.md 标准），让 AI 产出的游戏评测与攻略**每一条结论都能追溯、能重算、能被证伪**。
 
 它解决的不是"写得像评测"，而是三个具体的信任问题：
@@ -28,7 +30,7 @@
 克隆到对应宿主的技能目录即可，目录名保持 `game-review-walkthrough`。
 
 ```bash
-git clone https://github.com/<你的用户名>/<仓库名>.git ~/.workbuddy/skills/game-review-walkthrough
+git clone https://github.com/Scarecrowemm/game-review-walkthrough.git ~/.workbuddy/skills/game-review-walkthrough
 ```
 
 | 宿主 | 技能目录 |
@@ -83,7 +85,30 @@ python scripts/export_to_agent.py --target all
 
 `export_to_agent.py` 的 `--target` 接受 `codex` / `zcode` / `workbuddy` / `all`，可逗号组合。`--force` 覆盖前会先备份到 `skills.backup/`。
 
-只依赖 **Python 3 标准库**，不需要 pip install。
+只依赖 **Python 3 标准库**，运行时不需要 pip install。
+
+---
+
+## 测试
+
+```bash
+python -m pip install -r requirements-dev.txt   # 只需要 pytest，且仅测试用
+python -m pytest -q                             # 120 passed, 1 skipped
+python tests/mutation_check.py                  # 确认测试套件真的有牙
+```
+
+这个技能的价值全部建立在「不合规的产物根本生不出来」之上，所以测试的重点不是
+「正常数据能不能渲染」，而是**故意喂坏数据，确认它真的会拦**。
+
+为了验证这一点，仓库里有一个变异测试脚本：它逐条破坏 `build_report.py` 的关键校验
+（拆掉分数封顶、放行非法证据等级、让校验失败后仍返回 0……），每次破坏都**必须**导致
+测试失败。如果某个变异后测试仍然全绿，说明那块逻辑没有被真正测到。
+
+它已经抓到过一次真实漏洞：「权重和必须等于 1」那层校验被拆掉后原本的用例依然全绿——
+因为那条用例实际测的是「权重与 rubric 定值一致」，和这层是两回事。
+
+CI 在两个系统（Ubuntu / Windows）× 两个 Python 版本（3.10 / 3.13）上跑测试，
+并在主分支上额外跑一次变异测试。
 
 ---
 
@@ -123,6 +148,8 @@ python scripts/export_to_agent.py --target all
 ```
 game-review-walkthrough/
 ├── SKILL.md                        # 技能入口：红线、证据分级、六步工作流、输出契约
+├── README.md
+├── LICENSE                         # MIT
 ├── references/
 │   ├── review-rubric.md            # 七维评分、权重、锚点标准、公正性自查清单
 │   ├── evidence-protocol.md        # 证据等级、JSON schema、来源规范、图片来源协议
@@ -132,11 +159,17 @@ game-review-walkthrough/
 │   ├── build_report.py             # 校验 + 算分 + 渲染（唯一允许生成 HTML 的入口）
 │   ├── extract_frames.py           # 从录像抽帧，产出证据图（依赖 ffmpeg）
 │   └── export_to_agent.py          # 导出到 Codex / ZCode / WorkBuddy
-└── assets/
-    ├── report.css                  # 两份报告共用样式
-    ├── review-template.html        # 评测模板
-    ├── walkthrough-template.html   # 攻略模板
-    └── sample-report-data.json     # 完整 schema 示例（含 images 字段）
+├── assets/
+│   ├── report.css                  # 两份报告共用样式
+│   ├── review-template.html        # 评测模板
+│   ├── walkthrough-template.html   # 攻略模板
+│   └── sample-report-data.json     # 完整 schema 示例（含 images 字段）
+├── tests/
+│   ├── test_build_report.py        # 121 条用例，重点覆盖失败路径
+│   └── mutation_check.py           # 破坏源码，验证测试有效
+├── pytest.ini
+├── requirements-dev.txt            # 仅 pytest（测试用，运行时零依赖）
+└── .github/workflows/ci.yml        # 跨平台 × 跨版本测试 + 变异测试
 ```
 
 新建 `report-data.json` 时照 `assets/sample-report-data.json` 的结构复制——里面的游戏是虚构作品，数值与链接均为占位内容。

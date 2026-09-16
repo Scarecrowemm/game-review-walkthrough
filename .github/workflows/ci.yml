@@ -1,0 +1,57 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # 主测试：跨平台 + 跨 Python 版本。
+  # 这个技能日常跑在 Windows 上（脚本里有 Windows 专属的路径与会话处理），
+  # 但代码本身不依赖平台，所以两个系统都测，防止把 Windows 专属行为写死。
+  pytest:
+    name: pytest (${{ matrix.os }} · py${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.10", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: 安装测试依赖
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: 运行测试
+        run: python -m pytest -q
+
+  # 变异测试：确认测试套件真的有牙。
+  # 只跑非 PR 事件——PR 上保持快速反馈，主分支上再验证测试有效性。
+  mutation:
+    name: mutation check
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: 安装测试依赖
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: 破坏源码，确认测试会失败
+        run: python tests/mutation_check.py
