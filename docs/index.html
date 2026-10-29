@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>game-review-walkthrough · 示例报告</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-2: #f1f3f7;
+    --text: #1c2024;
+    --text-2: #5b6472;
+    --text-3: #8b95a3;
+    --line: #e2e6ec;
+    --accent: #2f6feb;
+    --accent-soft: #e8f0fe;
+    --good: #147a4a;
+    --good-soft: #e6f5ed;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(20, 26, 34, .05), 0 14px 40px -24px rgba(20, 26, 34, .25);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.75 -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px 72px; }
+
+  header {
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,.82);
+    backdrop-filter: blur(8px);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .nav {
+    max-width: 1040px; margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .brand { font-weight: 700; letter-spacing: -.01em; }
+  .brand span { color: var(--text-3); font-weight: 400; margin-left: 8px; font-size: 13px; }
+  .nav-links { display: flex; gap: 18px; font-size: 14px; color: var(--text-2); }
+
+  .hero { padding: 56px 0 30px; }
+  .kicker {
+    display: inline-block; font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft); border-radius: 999px;
+    padding: 4px 12px; margin-bottom: 14px; font-weight: 600;
+  }
+  h1 { font-size: clamp(30px, 4.4vw, 46px); line-height: 1.22; margin: 0 0 14px; letter-spacing: -.02em; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .lede { font-size: 17px; color: var(--text-2); max-width: 720px; margin: 0 0 26px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 20px; border-radius: 10px; font-weight: 600; font-size: 15px;
+    border: 1px solid var(--line); background: var(--surface); color: var(--text);
+    box-shadow: var(--shadow);
+  }
+  .btn:hover { text-decoration: none; transform: translateY(-1px); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn small { font-weight: 400; opacity: .75; }
+
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 26px 0 44px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column;
+  }
+  .card .shot { display: block; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  .card .shot img { display: block; width: 100%; height: auto; }
+  .card .body { padding: 18px 20px 20px; }
+  .card h2 { font-size: 19px; margin: 0 0 6px; }
+  .card p { margin: 0 0 12px; color: var(--text-2); font-size: 14px; }
+  .card .meta { font-size: 12.5px; color: var(--text-3); }
+
+  section.block { margin: 44px 0; }
+  .block h2 { font-size: 24px; margin: 0 0 6px; letter-spacing: -.01em; }
+  .block > p { color: var(--text-2); margin: 0 0 20px; max-width: 760px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .feat {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px; box-shadow: var(--shadow);
+  }
+  .feat .tag {
+    display: inline-block; font-size: 12px; font-weight: 700; color: var(--accent);
+    background: var(--accent-soft); border-radius: 6px; padding: 2px 8px; margin-bottom: 8px;
+  }
+  .feat h3 { font-size: 15.5px; margin: 0 0 4px; }
+  .feat p { margin: 0; font-size: 13.5px; color: var(--text-2); }
+
+  .note {
+    background: var(--surface-2); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+    border-radius: 12px; padding: 16px 20px; color: var(--text-2); font-size: 14px;
+  }
+  .note b { color: var(--text); }
+  .note code { background: #fff; border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; font-size: 12.5px; }
+
+  footer { border-top: 1px solid var(--line); margin-top: 52px; padding-top: 22px; color: var(--text-3); font-size: 13px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+  @media (max-width: 760px) {
+    .cards, .grid3 { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hero { padding-top: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">game-review-walkthrough <span>证据分级 · 可重算评分 · 分层攻略</span></div>
+    <div class="nav-links">
+      <a href="#demo">示例报告</a>
+      <a href="#why">设计要点</a>
+      <a href="https://github.com/Scarecrowemm/game-review-walkthrough">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="kicker">Agent Skill · Demo</div>
+    <h1>让 AI 写的游戏评测<br><em>每一条结论都能被追溯</em></h1>
+    <p class="lede">
+      固定权重、脚本算分、E1–E5 证据分级。没有证据的关卡细节一个字都不写；
+      拍不到的图留「待补图」占位框，而不是拿 AI 图冒充游戏画面。
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="review.html">查看评测报告 <small>评分卡 + 雷达图</small></a>
+      <a class="btn" href="walkthrough.html">查看攻略报告 <small>四层结构 + 待验证清单</small></a>
+      <a class="btn" href="https://github.com/Scarecrowemm/game-review-walkthrough">GitHub 仓库</a>
+    </div>
+  </div>
+
+  <div class="cards" id="demo">
+    <a class="card" href="review.html">
+      <span class="shot"><img src="screenshots/review.png" alt="评测报告首屏：7.0 分、七维雷达图与证据基础声明"></span>
+      <div class="body">
+        <h2>评测报告</h2>
+        <p>七维加权评分、雷达图、每维度加分/扣分锚点、证据基础声明、公正性自查与来源清单。</p>
+        <div class="meta">同一份数据 → 同一分数，可复算</div>
+      </div>
+    </a>
+    <a class="card" href="walkthrough.html">
+      <span class="shot"><img src="screenshots/walkthrough.png" alt="攻略报告首屏：主线路线图、章节推进骨架与不可逆节点提示"></span>
+      <div class="body">
+        <h2>攻略报告</h2>
+        <p>主线路线图、卡关点、BOSS 阶段表、隐藏要素四层结构；未验证内容单独进清单，不混进正文步骤。</p>
+        <div class="meta">章节骨架与 BOSS 血量轴自动生成</div>
+      </div>
+    </a>
+  </div>
+
+  <section class="block" id="why">
+    <h2>它和普通 AI 评测的区别</h2>
+    <p>普通 AI 评测的问题不是文笔，而是你无法判断哪句话有依据。这个 skill 把「可信」拆成了三个可检查的机制。</p>
+    <div class="grid3">
+      <div class="feat">
+        <span class="tag">可重算</span>
+        <h3>分数由脚本算</h3>
+        <p>七维权重全局固定，总分由 <code>build_report.py</code> 计算；换人、换模型、换时间，同一份证据得到同一个分。</p>
+      </div>
+      <div class="feat">
+        <span class="tag">可追溯</span>
+        <h3>每条事实挂证据等级</h3>
+        <p>E1 亲验、E2 素材、E3 有源、E4 推断、E5 未知。E3 必须给可点来源，E4/E5 必须写清怎么验证。</p>
+      </div>
+      <div class="feat">
+        <span class="tag">可证伪</span>
+        <h3>没证据就留空</h3>
+        <p>无证据的走位、数值、隐藏要素不写成步骤；拍不到的图渲染成「待补图」占位框，并写明怎么拍到。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>关于这份示例</h2>
+    <div class="note">
+      <b>《灰烬回廊 / Ashen Corridor》是虚构作品</b>，示例中的数值与来源均为占位内容，只用于演示报告结构。
+      攻略页里的灰色框是 <b>「待补图」占位框</b>，不是渲染失败——它演示的正是第 7 条红线：
+      <b>留空优于造假的图</b>。真实使用时，用 <code>extract_frames.py</code> 从录像抽帧，占位框会被真实截图替换。
+    </div>
+  </section>
+
+  <footer>
+    <div>MIT License · Python 3 标准库运行时零依赖</div>
+    <div><a href="https://github.com/Scarecrowemm/game-review-walkthrough">github.com/Scarecrowemm/game-review-walkthrough</a></div>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 # game-review-walkthrough · 游戏评测与通关攻略
 
 [![tests](https://github.com/Scarecrowemm/game-review-walkthrough/actions/workflows/ci.yml/badge.svg)](https://github.com/Scarecrowemm/game-review-walkthrough/actions/workflows/ci.yml)
+[![GitHub stars](https://img.shields.io/github/stars/Scarecrowemm/game-review-walkthrough?style=social)](https://github.com/Scarecrowemm/game-review-walkthrough)
 
 一个 **Agent Skill**（SKILL.md 标准），让 AI 产出的游戏评测与攻略**每一条结论都能追溯、能重算、能被证伪**。
 
@@ -11,6 +12,29 @@
 | 评分凭什么这么给？ | 固定 rubric + 公开权重 + 每维度必须给一个加分锚点和一个扣分锚点，总分由脚本算，不手算 |
 | 攻略凭什么可信？ | 五级证据体系（E1–E5），E4/E5 的内容禁止写成祈使句，只能进「待验证清单」 |
 | 没素材的时候会编吗？ | 不会。无证据的关卡布局、敌人数值、隐藏要素坐标一个字都不写，拍不到的图留占位框并写明怎么拍到 |
+
+---
+
+## 在线 Demo
+
+| 评测报告 | 攻略报告 |
+|---|---|
+| [打开示例](https://scarecrowemm.github.io/game-review-walkthrough/review.html) | [打开示例](https://scarecrowemm.github.io/game-review-walkthrough/walkthrough.html) |
+
+[![评测报告示例](docs/screenshots/review.png)](https://scarecrowemm.github.io/game-review-walkthrough/review.html)
+
+[![攻略报告示例](docs/screenshots/walkthrough.png)](https://scarecrowemm.github.io/game-review-walkthrough/walkthrough.html)
+
+> 示例游戏《灰烬回廊》为虚构作品，数值与来源均为占位内容。攻略页里的灰框是**「待补图」占位框**，不是渲染失败——它演示的正是第 7 条红线：留空优于造假的图。真实使用时用 `extract_frames.py` 从录像抽帧，占位框会被真实截图替换。
+>
+> 演示数据在 `assets/demo-report-data.json`，由 `assets/sample-report-data.json` 派生（移除了封面图）。
+
+本地预览：
+
+```bash
+python -m http.server 8000 -d docs
+# 打开 http://127.0.0.1:8000/
+```
 
 ---
 

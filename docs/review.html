@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>灰烬回廊 · 评测</title>
+<style>
+:root {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --surface-2: #f1f3f7;
+  --text: #1c2024;
+  --text-2: #5b6472;
+  --text-3: #8b95a3;
+  --line: #e2e6ec;
+  --line-strong: #cdd4dd;
+  --accent: #2f6feb;
+  --accent-soft: #e8f0fe;
+  --good: #147a4a;
+  --good-soft: #e6f5ed;
+  --mid: #9a6a00;
+  --mid-soft: #fdf3e0;
+  --low: #c0392b;
+  --low-soft: #fdeceb;
+  --radius: 10px;
+  --shadow: 0 1px 2px rgba(20, 26, 34, .05), 0 8px 24px -16px rgba(20, 26, 34, .18);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.75 -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 980px; margin: 0 auto; padding: 40px 24px 80px; }
+
+/* ---------- header ---------- */
+
+.masthead {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px 30px;
+  box-shadow: var(--shadow);
+  margin-bottom: 22px;
+}
+
+.kicker {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 3px 11px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+h1 { font-size: 30px; line-height: 1.3; margin: 0 0 8px; letter-spacing: -.01em; }
+.title-en { color: var(--text-3); font-size: 14px; font-weight: 400; margin-left: 10px; }
+.meta { color: var(--text-2); font-size: 13.5px; }
+
+/* ---------- banner ---------- */
+
+.banner {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 22px;
+  font-size: 14px;
+}
+
+.banner-line { margin: 3px 0; color: var(--text-2); }
+.banner-line .label {
+  display: inline-block;
+  min-width: 72px;
+  color: var(--text-3);
+  font-size: 12.5px;
+  letter-spacing: .02em;
+}
+.warns { margin: 12px 0 0; padding-left: 18px; color: var(--low); font-size: 13.5px; }
+.warns li { margin: 4px 0; }
+
+.label {
+  color: var(--text-3);
+  font-size: 12.5px;
+  margin-right: 8px;
+  letter-spacing: .02em;
+}
+
+/* ---------- score ---------- */
+
+.score-block {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 30px;
+  box-shadow: var(--shadow);
+  margin-bottom: 22px;
+}
+
+.score-value {
+  font-size: 54px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.03em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.score-side .verdict { font-size: 20px; font-weight: 650; }
+.score-side .note { color: var(--text-3); font-size: 13px; margin-top: 2px; }
+.no-total .score-value { color: var(--text-3); }
+
+/* ---------- radar ---------- */
+
+.radar {
+  display: block;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto 30px;
+  overflow: visible;
+}
+.radar .ring { fill: none; stroke: var(--line); stroke-width: 1; }
+.radar .ring-outer { stroke: var(--line-strong); }
+.radar .axis { stroke: var(--line); stroke-width: 1; }
+.radar .area { fill: rgba(47, 111, 235, .16); stroke: var(--accent); stroke-width: 2; }
+.radar .dot { fill: var(--accent); }
+.radar .rlabel { font-size: 11.5px; fill: var(--text-2); }
+.radar .rscore { font-size: 11px; fill: var(--accent); font-weight: 600; }
+
+/* ---------- sections ---------- */
+
+h2 {
+  font-size: 20px;
+  margin: 40px 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  letter-spacing: -.01em;
+}
+
+.block {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow);
+}
+.block h2 { margin-top: 0; border: none; padding-bottom: 0; font-size: 18px; }
+.block p { margin: 8px 0 0; }
+
+/* ---------- dimension cards ---------- */
+
+.dim {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.dim.band-good { border-left-color: var(--good); }
+.dim.band-mid { border-left-color: var(--mid); }
+.dim.band-low { border-left-color: var(--low); }
+
+.dim header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.dim h3 { font-size: 16.5px; margin: 0; }
+.dim-score { color: var(--text-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dim-score strong { font-size: 24px; color: var(--text); }
+.dim-score span { font-size: 13px; color: var(--text-3); }
+
+.dim-meta { color: var(--text-3); font-size: 12.5px; margin-top: 2px; }
+.coverage {
+  margin-top: 10px;
+  background: var(--mid-soft);
+  color: var(--mid);
+  border-radius: 6px;
+  padding: 7px 11px;
+  font-size: 13px;
+}
+
+.anchors { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.anchors h4 { font-size: 12.5px; margin: 0 0 6px; color: var(--text-3); font-weight: 600; letter-spacing: .03em; }
+.anchors ul { margin: 0; padding-left: 18px; font-size: 13.5px; }
+.anchors li { margin: 4px 0; }
+.anchor-plus h4 { color: var(--good); }
+.anchor-minus h4 { color: var(--low); }
+
+/* ---------- evidence ---------- */
+
+.ev { list-style: none; margin: 14px 0 0; padding: 12px 0 0; border-top: 1px dashed var(--line); }
+.ev-item { font-size: 12.5px; color: var(--text-3); margin: 4px 0; line-height: 1.6; }
+.ev-item code {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 11.5px;
+  color: var(--text-2);
+}
+.ev-item a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(47,111,235,.3); }
+.ev-item .basis { color: var(--mid); }
+.ev-item .verify { color: var(--text-2); }
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-right: 7px;
+  vertical-align: 1px;
+}
+.badge-material { background: var(--surface-2); color: var(--text-2); border: 1px solid var(--line-strong); }
+.badge-inferred { background: var(--mid-soft); color: var(--mid); }
+.badge-unknown { background: var(--low-soft); color: var(--low); }
+
+/* ---------- pros / cons ---------- */
+
+.pc { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.pc .block h2 { color: var(--good); }
+.pc .block.cons h2 { color: var(--low); }
+.pc ul { margin: 10px 0 0; padding-left: 18px; font-size: 14px; }
+.pc li { margin: 7px 0; }
+
+/* ---------- tables ---------- */
+
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-top: 12px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--text-3); font-weight: 600; font-size: 12.5px; letter-spacing: .03em; background: var(--surface-2); }
+td.risk { color: var(--text); font-weight: 600; white-space: nowrap; }
+tbody tr:last-child td { border-bottom: none; }
+
+table.phases { font-size: 13px; }
+table.phases td.ph { font-weight: 700; text-align: center; color: var(--accent); }
+table.phases td.tell { color: var(--text); }
+table.phases td.punish { color: var(--good); }
+table.phases td.risk { color: var(--low); font-weight: 500; white-space: normal; }
+
+/* ---------- walkthrough ---------- */
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 26px;
+}
+.nav a {
+  font-size: 13px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 5px 14px;
+  text-decoration: none;
+}
+
+.layer { margin-bottom: 40px; scroll-margin-top: 20px; }
+.layer-title h2 { margin-bottom: 4px; }
+.layer-title p { margin: 0 0 16px; color: var(--text-3); font-size: 13.5px; }
+.layer-title .count { margin-left: 10px; color: var(--text-2); }
+
+.layer-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.layer-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; }
+.layer-head h3 { font-size: 16.5px; margin: 0; }
+.layer-head .time { color: var(--text-3); font-size: 12.5px; white-space: nowrap; }
+
+.goal { margin: 10px 0; font-size: 14px; }
+.symptom, .mechanic, .idea, .tolerance, .cheese {
+  margin: 9px 0;
+  font-size: 14px;
+  background: var(--surface-2);
+  border-radius: 7px;
+  padding: 9px 13px;
+}
+.symptom { border-left: 3px solid var(--low); }
+.mechanic { border-left: 3px solid var(--accent); }
+.idea { border-left: 3px solid var(--good); }
+.tolerance { border-left: 3px solid var(--mid); }
+.cheese { border-left: 3px solid var(--line-strong); }
+
+.route { margin: 12px 0; padding-left: 22px; font-size: 14px; }
+.route li { margin: 6px 0; }
+
+.chips { margin: 10px 0; }
+.chip {
+  display: inline-block;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 2px 10px;
+  margin: 0 6px 6px 0;
+}
+
+.missable { background: var(--low-soft); border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
+.missable h4 { margin: 0 0 6px; font-size: 13px; color: var(--low); letter-spacing: .03em; }
+.missable ul { margin: 0; padding-left: 18px; font-size: 13.5px; }
+.missable .ok { color: var(--good); }
+.missable .no { color: var(--low); }
+
+.errors { margin: 12px 0; }
+.errors h4 { margin: 0 0 6px; font-size: 13px; color: var(--text-3); letter-spacing: .03em; }
+.errors ul { margin: 0; padding-left: 18px; font-size: 13.5px; }
+
+.recommended { display: flex; flex-wrap: wrap; gap: 18px; background: var(--surface-2); border-radius: 8px; padding: 12px 16px; margin: 12px 0; font-size: 13.5px; }
+.kv { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; margin: 12px 0; font-size: 14px; }
+.kv > div { background: var(--surface-2); border-radius: 7px; padding: 9px 13px; }
+
+/* ---------- unverified ---------- */
+
+.unv-list { list-style: none; margin: 0; padding: 0; }
+.unv {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+.unv.high { border-left-color: var(--low); }
+.unv.medium { border-left-color: var(--mid); }
+.unv.low { border-left-color: var(--line-strong); }
+.unv-head { font-size: 15px; font-weight: 600; }
+.unv-body { margin-top: 10px; font-size: 13.5px; color: var(--text-2); }
+.unv-body > div { margin: 4px 0; }
+
+.pri {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 1px 7px;
+  margin-right: 9px;
+  vertical-align: 1px;
+}
+.pri-high { background: var(--low-soft); color: var(--low); }
+.pri-medium { background: var(--mid-soft); color: var(--mid); }
+.pri-low { background: var(--surface-2); color: var(--text-2); }
+
+.empty { color: var(--text-3); font-size: 14px; font-style: normal; }
+
+/* ---------- sources / footer ---------- */
+
+.sources { list-style: none; margin: 0 0 30px; padding: 0; font-size: 13.5px; }
+.sources li { padding: 9px 0; border-bottom: 1px solid var(--line); }
+.sources a { color: var(--accent); text-decoration: none; }
+.sources .tag {
+  display: inline-block;
+  font-size: 11px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--text-2);
+  border-radius: 4px;
+  padding: 0 6px;
+  margin-right: 9px;
+}
+.sources .retrieved { color: var(--text-3); font-size: 12px; margin-left: 8px; }
+
+footer {
+  margin-top: 50px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  color: var(--text-3);
+  font-size: 12.5px;
+}
+
+/* ---------- figures / images ---------- */
+
+.figs { display: grid; gap: 14px; margin: 16px 0 4px; }
+.fig-group-label {
+  font-size: 12.5px;
+  color: var(--text-3);
+  letter-spacing: .04em;
+  margin: 20px 0 2px;
+}
+
+.fig {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+.fig img { display: block; width: 100%; height: auto; background: var(--surface-2); }
+.fig figcaption {
+  padding: 11px 15px 13px;
+  font-size: 13.5px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+.fig .cap { color: var(--text); }
+.fig-meta {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-3);
+  font-size: 12px;
+}
+.fig-meta a { color: var(--accent); text-decoration: none; }
+.fig-anchors { margin: 8px 0 0; padding-left: 18px; font-size: 12.5px; color: var(--text-2); }
+.fig-anchors li { margin: 3px 0; }
+
+.fig-diagram { background: var(--surface-2); }
+.fig-diagram figcaption { background: var(--surface-2); border-top-color: var(--line); }
+
+.wm {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mid);
+  background: var(--mid-soft);
+  border-radius: 4px;
+  padding: 1px 7px;
+  margin-right: 8px;
+}
+
+.fig-generic {
+  padding: 34px 18px;
+  text-align: center;
+  color: var(--mid);
+  font-size: 13px;
+  background: var(--mid-soft);
+}
+
+/* 待补图：报告本身就是采图清单 */
+
+.fig-missing { border: 1px dashed var(--line-strong); background: var(--surface-2); }
+.fig-missing-body { padding: 16px 18px; }
+.fig-missing-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--text-2);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  padding: 1px 7px;
+  margin-bottom: 8px;
+}
+.fig-missing-what { font-size: 14px; font-weight: 600; }
+.fig-missing-meta { font-size: 12.5px; color: var(--text-3); margin-top: 5px; }
+.fig-missing-meta code {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 11.5px;
+}
+.fig-missing-hint {
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--text-2);
+  border-left: 2px solid var(--line-strong);
+  padding-left: 10px;
+}
+
+/* ---------- 机制示意图元素 ---------- */
+
+.diagram { display: block; width: 100%; height: auto; padding: 18px 16px 10px; overflow: visible; }
+
+.diagram .seg { fill: var(--accent); opacity: .82; }
+.diagram .seg-alt { fill: var(--accent); opacity: .56; }
+.diagram .seg-label { font-size: 12.5px; fill: #ffffff; font-weight: 600; }
+.diagram .seg-note { font-size: 11.5px; fill: var(--text-3); }
+.diagram .axis { stroke: var(--line-strong); stroke-width: 1; }
+
+.diagram .rail { stroke: var(--line-strong); stroke-width: 2; }
+.diagram .node { fill: var(--surface); stroke: var(--accent); stroke-width: 2.5; }
+.diagram .node-title { font-size: 13.5px; fill: var(--text); font-weight: 600; }
+.diagram .node-sub { font-size: 12px; fill: var(--text-3); }
+.diagram .node-warn { font-size: 12px; fill: var(--low); }
+
+.badge-official { background: var(--accent-soft); color: var(--accent); }
+.badge-diagram { background: var(--mid-soft); color: var(--mid); }
+
+@media (max-width: 720px) {
+  .anchors, .pc, .kv { grid-template-columns: 1fr; }
+  .score-block { flex-direction: column; align-items: flex-start; gap: 12px; }
+  table.phases { display: block; overflow-x: auto; }
+}
+
+@media print {
+  body { background: #fff; }
+  .wrap { max-width: none; padding: 0; }
+  .dim, .block, .layer-card, .unv, .masthead { box-shadow: none; break-inside: avoid; }
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <span class="kicker">Game Review</span>
+    <h1>灰烬回廊<span class="title-en">Ashen Corridor</span></h1>
+    <div class="meta">PC / PS5 ｜ v1.03 ｜ 简体中文 ｜ 评测日 2026-09-16</div>
+  </header>
+
+  <div class="banner"><div class="banner-line"><span class="label">证据基础</span>通关主线 · 时长 &lt; 15h</div><div class="banner-line"><span class="label">声明</span>示例数据：游戏、数值与来源均为虚构，仅用于演示报告结构；攻略页中的灰框为「待补图」占位，用于演示「不伪造游戏画面」的红线。</div><div class="banner-line"><span class="label">完成度</span>主线通关，支线 55%，未打高难模式 ｜ 游玩 14.5 小时</div></div>
+
+  
+
+  <div class="score-block"><div class="score-value">7.0</div><div class="score-side"><div class="verdict">推荐</div><div class="note">七维加权 · 权重固定 · 可重算</div></div></div>
+
+  <svg class="radar" viewBox="0 0 560 420" role="img" aria-label="维度评分雷达图">
+<polygon points="280.0,186.4 298.5,195.3 303.0,215.3 290.2,231.3 269.8,231.3 257.0,215.3 261.5,195.3" class="ring"/>
+<polygon points="280.0,162.8 316.9,180.6 326.0,220.5 300.5,252.5 259.5,252.5 234.0,220.5 243.1,180.6" class="ring"/>
+<polygon points="280.0,139.2 335.4,165.9 349.0,225.8 310.7,273.8 249.3,273.8 211.0,225.8 224.6,165.9" class="ring"/>
+<polygon points="280.0,115.6 353.8,151.1 372.0,231.0 321.0,295.1 239.0,295.1 188.0,231.0 206.2,151.1" class="ring"/>
+<polygon points="280.0,92.0 372.3,136.4 395.0,236.3 331.2,316.3 228.8,316.3 165.0,236.3 187.7,136.4" class="ring ring-outer"/>
+<line x1="280" y1="210" x2="280.0" y2="92.0" class="axis"/>
+<line x1="280" y1="210" x2="372.3" y2="136.4" class="axis"/>
+<line x1="280" y1="210" x2="395.0" y2="236.3" class="axis"/>
+<line x1="280" y1="210" x2="331.2" y2="316.3" class="axis"/>
+<line x1="280" y1="210" x2="228.8" y2="316.3" class="axis"/>
+<line x1="280" y1="210" x2="165.0" y2="236.3" class="axis"/>
+<line x1="280" y1="210" x2="187.7" y2="136.4" class="axis"/>
+<polygon points="280.0,115.6 344.6,158.5 372.0,231.0 310.7,273.8 244.2,284.4 222.5,223.1 215.4,158.5" class="area"/>
+<circle cx="280.0" cy="115.6" r="4" class="dot"/>
+<circle cx="344.6" cy="158.5" r="4" class="dot"/>
+<circle cx="372.0" cy="231.0" r="4" class="dot"/>
+<circle cx="310.7" cy="273.8" r="4" class="dot"/>
+<circle cx="244.2" cy="284.4" r="4" class="dot"/>
+<circle cx="222.5" cy="223.1" r="4" class="dot"/>
+<circle cx="215.4" cy="158.5" r="4" class="dot"/>
+<text x="280.0" y="68.0" text-anchor="middle" class="rlabel">核心循环与玩法深度</text>
+<text x="280.0" y="83.0" text-anchor="middle" class="rscore">8/10</text>
+<text x="394.1" y="121.5" text-anchor="start" class="rlabel">关卡与内容设计</text>
+<text x="394.1" y="136.5" text-anchor="start" class="rscore">7/10</text>
+<text x="422.3" y="241.6" text-anchor="start" class="rlabel">操作手感与反馈通道</text>
+<text x="422.3" y="256.6" text-anchor="start" class="rscore">8/10</text>
+<text x="343.3" y="337.9" text-anchor="start" class="rlabel">系统与数值健康度</text>
+<text x="343.3" y="352.9" text-anchor="start" class="rscore">6/10</text>
+<text x="216.7" y="337.9" text-anchor="end" class="rlabel">视听表现与美术方向</text>
+<text x="216.7" y="352.9" text-anchor="end" class="rscore">7/10</text>
+<text x="137.7" y="241.6" text-anchor="end" class="rlabel">技术稳定性与性能</text>
+<text x="137.7" y="256.6" text-anchor="end" class="rscore">5/10</text>
+<text x="165.9" y="121.5" text-anchor="end" class="rlabel">内容量与性价比</text>
+<text x="165.9" y="136.5" text-anchor="end" class="rscore">7/10</text>
+</svg>
+
+  <section class="block">
+    <h2>总评</h2>
+    <p>核心循环扎实，前 6 小时几乎没有废操作，钩索与钟摆组合出的移动路线是近几年同品类里少有的新鲜感。短板集中在后期：第 5 章起怪物配置开始靠堆血量拉长战斗，系统层面的资源产出明显快于消耗，导致后期难度反而回落。技术表现是全作最弱项，PC 版在密集粒子场景下 1% low 掉到 40 帧区间。综合看，这是一款值得推荐但后期节奏需要耐心的作品。</p>
+  </section>
+
+  <h2>维度评分</h2>
+  <section class="dim band-good">
+  <header>
+    <h3>核心循环与玩法深度</h3>
+    <div class="dim-score"><strong>8</strong><span>/10</span></div>
+  </header>
+  <div class="dim-meta">权重 20% · 贡献 1.60 分</div>
+  <div class="coverage">覆盖范围：仅覆盖主线，未评估高难模式下的循环变化</div>
+  <div class="anchors">
+    <div class="anchor-plus"><h4>加分锚点</h4><ul><li>移动-战斗-采集三者共享同一套体力资源，玩家必须在同一资源池里做取舍，而不是各玩各的</li><li>钩索与钟摆的组合在后期被关卡重新定义用途，同一机制在 6 小时的跨度里出现了三次语义升级</li></ul></div>
+    <div class="anchor-minus"><h4>扣分锚点</h4><ul><li>第 5 章后新增的敌人不引入新决策，只提升血量与攻击频率，循环在该段停滞</li></ul></div>
+  </div>
+  
+  <ul class="ev"><li class="ev-item">主线全程亲手通关，第 5 章停滞感在第 4 次重复战斗后可复现</li><li class="ev-item"><span class="badge badge-material">素材</span>钩索点位的关卡布置可见 · <code>captures/ch3_bell.png</code></li></ul>
+</section>
+<section class="dim band-mid">
+  <header>
+    <h3>关卡与内容设计</h3>
+    <div class="dim-score"><strong>7</strong><span>/10</span></div>
+  </header>
+  <div class="dim-meta">权重 18% · 贡献 1.26 分</div>
+  
+  <div class="anchors">
+    <div class="anchor-plus"><h4>加分锚点</h4><ul><li>第 3 章钟摆关用一次失败教会玩家节奏，教学成本为零，全章没有一句文字提示</li><li>存在明显捷径：第 4 章中段可从外墙直接绕到 BOSS 房，跳过了约 8 分钟的正规路线</li></ul></div>
+    <div class="anchor-minus"><h4>扣分锚点</h4><ul><li>第 5-6 章结构重复，均为「三段战斗 + 一扇门」，节奏曲线在第 5 章后趋平</li></ul></div>
+  </div>
+  
+  <ul class="ev"><li class="ev-item">两次通关，第 4 章外墙捷径可稳定复现</li></ul>
+</section>
+<section class="dim band-good">
+  <header>
+    <h3>操作手感与反馈通道</h3>
+    <div class="dim-score"><strong>8</strong><span>/10</span></div>
+  </header>
+  <div class="dim-meta">权重 15% · 贡献 1.20 分</div>
+  <div class="coverage">覆盖范围：仅手柄，键鼠适配未评估</div>
+  <div class="anchors">
+    <div class="anchor-plus"><h4>加分锚点</h4><ul><li>轻重击的命中停顿差异明显，仅凭音效即可区分是否破防，无需看 UI</li><li>受击方向通过音效声道与镜头轻推双重传达，背后来敌可在不看小地图时感知</li></ul></div>
+    <div class="anchor-minus"><h4>扣分锚点</h4><ul><li>钩索在无锚点时仍播放半程起手动画，产生约 0.2 秒的操作空转，破坏节奏</li></ul></div>
+  </div>
+  
+  <ul class="ev"><li class="ev-item">钩索空转在任意无锚点墙面可复现</li><li class="ev-item"><span class="badge badge-material">素材</span>破防命中停顿的帧差可在此段核对 · <code>captures/boss2_phase2.mp4 @ 01:12</code></li></ul>
+</section>
+<section class="dim band-mid">
+  <header>
+    <h3>系统与数值健康度</h3>
+    <div class="dim-score"><strong>6</strong><span>/10</span></div>
+  </header>
+  <div class="dim-meta">权重 14% · 贡献 0.84 分</div>
+  
+  <div class="anchors">
+    <div class="anchor-plus"><h4>加分锚点</h4><ul><li>三套武器分支各有适配场景，不存在跨全流程的最优解</li><li>无内购、无微交易，付费点不影响任何强度数值</li></ul></div>
+    <div class="anchor-minus"><h4>扣分锚点</h4><ul><li>灵魂结晶产出远大于消耗：通关时结余 4 万余，全部升级格已满，该资源在第 5 章后失去意义</li><li>恢复药在中期即可实现无限循环，直接压平了后半程的难度曲线</li></ul></div>
+  </div>
+  
+  <ul class="ev"><li class="ev-item">通关存档资源结余与升级格状态可核对</li><li class="ev-item"><span class="badge badge-inferred">推断</span><span class="basis">推导链：资源增益词条可叠加且无衰减，按同名词条线性叠加推算，第 5 章后药水战斗消耗低于产出</span> · <span class="verify">验证：第 5 章任意篝火 → 装备两件以上回复词条后连续战斗 15 分钟 → 观察 观察药水数量是否只增不减</span></li></ul>
+</section>
+<section class="dim band-mid">
+  <header>
+    <h3>视听表现与美术方向</h3>
+    <div class="dim-score"><strong>7</strong><span>/10</span></div>
+  </header>
+  <div class="dim-meta">权重 12% · 贡献 0.84 分</div>
+  
+  <div class="anchors">
+    <div class="anchor-plus"><h4>加分锚点</h4><ul><li>用颜色编码可交互物与危险物，玩家无需试错即可判断墙面的钩索点</li><li>低饱和美术方向与灰烬主题自洽，第 3 章的钟声与场景频率构成呼应</li></ul></div>
+    <div class="anchor-minus"><h4>扣分锚点</h4><ul><li>第 5 章地图复用了第 2 章的建筑模块，视觉辨识度下降，容易迷路</li></ul></div>
+  </div>
+  
+  <ul class="ev"><li class="ev-item">颜色编码规则在前 3 章内保持一致</li></ul>
+</section>
+<section class="dim band-low">
+  <header>
+    <h3>技术稳定性与性能</h3>
+    <div class="dim-score"><strong>5</strong><span>/10</span></div>
+  </header>
+  <div class="dim-meta">权重 11% · 贡献 0.55 分</div>
+  <div class="coverage">覆盖范围：仅测试 PC 版（RTX 3060 / 2K 中画质），PS5 版未测</div>
+  <div class="anchors">
+    <div class="anchor-plus"><h4>加分锚点</h4><ul><li>加载速度快，重开 BOSS 战约 4 秒，试错成本低</li><li>无崩溃与存档损坏，14.5 小时全程未遇到阻塞性 bug</li></ul></div>
+    <div class="anchor-minus"><h4>扣分锚点</h4><ul><li>密集粒子场景下 1% low 掉到 40 帧区间，可稳定复现，非偶发</li><li>画面选项缺乏对粒子质量的独立开关，只能整体降档</li></ul></div>
+  </div>
+  
+  <ul class="ev"><li class="ev-item">第 4 章 BOSS 二阶段的粒子场景可稳定复现掉帧</li></ul>
+</section>
+<section class="dim band-mid">
+  <header>
+    <h3>内容量与性价比</h3>
+    <div class="dim-score"><strong>7</strong><span>/10</span></div>
+  </header>
+  <div class="dim-meta">权重 10% · 贡献 0.70 分</div>
+  
+  <div class="anchors">
+    <div class="anchor-plus"><h4>加分锚点</h4><ul><li>主线 + 支线约 14.5 小时无强制 grind，重复内容可全部跳过</li><li>DLC 尚未拆出本体内容，后续更新为增量添加</li></ul></div>
+    <div class="anchor-minus"><h4>扣分锚点</h4><ul><li>二周目仅提升难度与掉落，无新增内容或路线变化</li></ul></div>
+  </div>
+  
+  <ul class="ev"><li class="ev-item">主线加支线总时长由存档计时读取</li></ul>
+</section>
+
+  <div class="pc">
+    <section class="block">
+      <h2>优点</h2>
+      <ul><li>移动、战斗、采集共享单一资源池，三者互相牵制，决策密度高</li><li>钩索机制在 6 小时跨度内被关卡重新定义三次用途，同一机制持续产出新鲜感</li><li>重开 BOSS 战约 4 秒，试错成本极低，鼓励玩家主动尝试不同打法</li><li>颜色编码清晰，无需文字教程即可理解关卡规则</li></ul>
+    </section>
+    <section class="block cons">
+      <h2>缺点</h2>
+      <ul><li>第 5 章后敌人靠堆血量延长战斗，循环停滞</li><li>灵魂结晶后期严重过剩，资源系统在后半程失去意义</li><li>PC 版密集粒子场景 1% low 掉至 40 帧区间，可稳定复现</li><li>二周目无内容变化，重复游玩价值有限</li></ul>
+    </section>
+  </div>
+
+  <section class="block"><h2>系列对比（不计入总分）</h2><p>本作为新 IP，无系列历史可对比。若后续作品沿用同一套体力资源设计，需重新评估该机制在系列内的复用性——单作成立不代表系列成立。</p></section>
+
+  <h2>公正性自查</h2>
+  <table>
+    <thead><tr><th>风险项</th><th>核查结果</th><th>处置</th></tr></thead>
+    <tbody><tr><td class="risk">利益相关</td><td>自购游戏，无送测、无赞助、无发行方关系</td><td>无需扣分，已在首屏声明</td></tr>
+<tr><td class="risk">平台偏好</td><td>仅使用手柄，未测试键鼠</td><td>键鼠适配不纳入 feel_feedback 与 tech_stability 评价，已在 coverage_note 标注</td></tr>
+<tr><td class="risk">系列情怀</td><td>本作为新 IP，无前作加成</td><td>系列对比不适用</td></tr>
+<tr><td class="risk">素材污染</td><td>看过首发宣传片，但评分锚点仅采用游戏内可观察现象</td><td>宣传片信息未用于任何加分锚点</td></tr>
+<tr><td class="risk">时长偏差</td><td>时长 14.5 小时，未打高难模式与完整支线</td><td>总分上限按 cleared_under_15h 封顶 8.5，并将后期内容标注为覆盖范围外</td></tr>
+<tr><td class="risk">规模偏差</td><td>本作为中型团队作品，未因预算规模调整任何权重</td><td>七维权重与 rubric 完全一致</td></tr>
+<tr><td class="risk">首发情绪</td><td>评测时未参考任何平台综合评分</td><td>未引用外部评分作为锚点</td></tr></tbody>
+  </table>
+
+  <h2>来源清单</h2>
+  <ul class="sources"><li><span class="tag">official</span><a href="https://example.com/patch-1.03" target="_blank" rel="noopener">官方 1.03 补丁说明</a><span class="retrieved">检索于 2026-09-16</span></li>
+<li><span class="tag">official</span><a href="https://example.com/wiki/soul-crystal" target="_blank" rel="noopener">官方 Wiki - 灵魂结晶</a><span class="retrieved">检索于 2026-09-16</span></li>
+<li><span class="tag">community</span><a href="https://example.org/guide/bell" target="_blank" rel="noopener">示例攻略站 - 钟摆关解法</a><span class="retrieved">检索于 2026-09-16</span></li></ul>
+
+  <footer>
+    证据分级 E1-E5：E1 亲验 / E2 素材 / E3 有源 / E4 推断 / E5 未知。
+    加权总分由脚本按固定权重计算，同一份证据可复现同一结果。未经玩到的内容已标注覆盖范围。
+    <br>生成时间 2026-10-29 16:58
+  </footer>
+
+</div>
+</body>
+</html>
